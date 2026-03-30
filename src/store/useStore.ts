@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { ScenarioInputs, ProjectionResult, OptimizationResult } from '../types';
 import { runProjection } from '../engines/projection';
 import { optimizeCPPOAS } from '../engines/optimizer';
+import { runAccumulation } from '../engines/accumulation';
 
 const defaultScenario = (id: string, label: string): ScenarioInputs => ({
   id,
@@ -70,7 +71,7 @@ interface AppState {
   scenarios: ScenarioInputs[];
   results: ProjectionResult[];
   optimizations: Record<string, OptimizationResult>;
-  activeTab: 'inputs' | 'results';
+  activeTab: 'inputs' | 'accumulation' | 'results';
 
   updateScenario: (id: string, updates: Partial<ScenarioInputs>) => void;
   addScenario: () => void;
@@ -78,7 +79,8 @@ interface AppState {
   runProjections: () => void;
   runOptimization: (id: string) => void;
   applyOptimization: (id: string) => void;
-  setActiveTab: (tab: 'inputs' | 'results') => void;
+  applyAccumulation: (id: string) => void;
+  setActiveTab: (tab: 'inputs' | 'accumulation' | 'results') => void;
 }
 
 export const useStore = create<AppState>()(
@@ -144,6 +146,34 @@ export const useStore = create<AppState>()(
                 }
               : s
           ),
+        }));
+      },
+
+      applyAccumulation: (id) => {
+        const scenario = get().scenarios.find((s) => s.id === id);
+        if (!scenario) return;
+        const result = runAccumulation(scenario);
+        set((state) => ({
+          scenarios: state.scenarios.map((s) =>
+            s.id === id
+              ? {
+                  ...s,
+                  accounts: {
+                    ...s.accounts,
+                    rrsp: Math.round(result.retirementRrsp),
+                    tfsa: Math.round(result.retirementTfsa),
+                    nonReg: Math.round(result.retirementNonReg),
+                  },
+                  spouseAccounts: {
+                    ...s.spouseAccounts,
+                    rrsp: Math.round(result.spouseRetirementRrsp),
+                    tfsa: Math.round(result.spouseRetirementTfsa),
+                    nonReg: Math.round(result.spouseRetirementNonReg),
+                  },
+                }
+              : s
+          ),
+          activeTab: 'inputs',
         }));
       },
 
