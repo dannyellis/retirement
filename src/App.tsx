@@ -1,6 +1,7 @@
 
 import { useStore } from './store/useStore';
 import { ScenarioPanel } from './components/inputs/ScenarioPanel';
+import { AccumulationPanel } from './components/accumulation/AccumulationPanel';
 import { SummaryCards } from './components/results/SummaryCards';
 import { IncomeChart } from './components/charts/IncomeChart';
 import { BalanceChart } from './components/charts/BalanceChart';
@@ -16,6 +17,7 @@ export default function App() {
     addScenario,
     removeScenario,
     runProjections,
+    applyAccumulation,
     setActiveTab,
   } = useStore();
 
@@ -34,6 +36,12 @@ export default function App() {
               className={`px-4 py-2 ${activeTab === 'inputs' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
             >
               Inputs
+            </button>
+            <button
+              onClick={() => setActiveTab('accumulation')}
+              className={`px-4 py-2 ${activeTab === 'accumulation' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+            >
+              Accumulation
             </button>
             <button
               onClick={() => setActiveTab('results')}
@@ -67,6 +75,24 @@ export default function App() {
                 + Add Scenario
               </button>
             )}
+          </div>
+        )}
+
+        {activeTab === 'accumulation' && (
+          <div className="space-y-6">
+            <p className="text-sm text-gray-500">
+              Project your account balances from today to retirement, then apply them as starting balances for the retirement projection.
+            </p>
+            <div className="flex gap-5 flex-wrap">
+              {scenarios.map((s) => (
+                <AccumulationPanel
+                  key={s.id}
+                  scenario={s}
+                  onChange={(updates) => updateScenario(s.id, updates)}
+                  onApply={() => applyAccumulation(s.id)}
+                />
+              ))}
+            </div>
           </div>
         )}
 

@@ -73,6 +73,23 @@ export interface MeltdownSettings {
   annualTfsaRoom: number;
 }
 
+export interface AccumulationInputs {
+  // Primary person
+  currentRrsp: number;
+  currentTfsa: number;
+  currentNonReg: number;
+  annualRrspContribution: number;
+  annualTfsaContribution: number;
+  annualNonRegContribution: number;
+  // Spouse
+  spouseCurrentRrsp: number;
+  spouseCurrentTfsa: number;
+  spouseCurrentNonReg: number;
+  spouseAnnualRrspContribution: number;
+  spouseAnnualTfsaContribution: number;
+  spouseAnnualNonRegContribution: number;
+}
+
 export interface ScenarioInputs {
   id: string;
   label: string;
@@ -93,6 +110,8 @@ export interface ScenarioInputs {
   /** Elect T1032 pension income splitting (up to 50% of eligible pension income) */
   pensionIncomeSplitting: boolean;
   meltdown: MeltdownSettings;
+  /** Pre-retirement accumulation inputs (optional — used by the Accumulation tab) */
+  accumulation?: AccumulationInputs;
 }
 
 export interface YearlyProjection {
