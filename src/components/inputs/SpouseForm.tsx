@@ -13,7 +13,7 @@ export function SpouseForm({ scenario, onChange }: Props) {
       {/* Spouse Profile */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Spouse / Partner Profile</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label className="label">Name</label>
             <input
@@ -51,7 +51,7 @@ export function SpouseForm({ scenario, onChange }: Props) {
       {/* Spouse CPP */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Spouse CPP</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">Estimated Monthly Benefit at 65 ($)</label>
             <input
@@ -85,7 +85,7 @@ export function SpouseForm({ scenario, onChange }: Props) {
       {/* Spouse OAS */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Spouse OAS</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">OAS Start Age</label>
             <input
@@ -118,7 +118,7 @@ export function SpouseForm({ scenario, onChange }: Props) {
       {/* Spouse Accounts */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Spouse Accounts</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">RRSP / RRIF ($)</label>
             <input

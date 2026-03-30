@@ -23,7 +23,7 @@ export function AccountsForm({ scenario, onChange }: Props) {
       {/* Account Balances */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Account Balances (today's dollars)</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label className="label">RRSP / RRIF ($)</label>
             <input
@@ -60,7 +60,7 @@ export function AccountsForm({ scenario, onChange }: Props) {
       {/* Growth Rates */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Assumed Growth Rates</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {[
             { key: 'rrsp', label: 'RRSP / RRIF' },
             { key: 'tfsa', label: 'TFSA' },

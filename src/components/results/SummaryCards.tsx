@@ -6,9 +6,16 @@ interface Props {
   results: ProjectionResult[];
 }
 
+const colClass: Record<number, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+};
+
 export function SummaryCards({ results }: Props) {
   return (
-    <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${results.length}, 1fr)` }}>
+    <div className={`grid gap-4 ${colClass[results.length] ?? 'grid-cols-1 sm:grid-cols-2'}`}>
       {results.map((r) => {
         const first = r.projections[0];
         const last = r.projections[r.projections.length - 1];

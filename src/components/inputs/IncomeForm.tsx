@@ -19,7 +19,7 @@ export function IncomeForm({ scenario, onChange }: Props) {
       {/* CPP */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">CPP</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">Estimated Monthly Benefit at 65 ($)</label>
             <input
@@ -54,7 +54,7 @@ export function IncomeForm({ scenario, onChange }: Props) {
       {/* OAS */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">OAS</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">OAS Start Age</label>
             <input
@@ -120,7 +120,7 @@ export function IncomeForm({ scenario, onChange }: Props) {
       {/* Employer Pension */}
       <div className="space-y-3">
         <h3 className="font-semibold text-gray-700">Employer Pension (DB/DC)</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="label">Monthly Pension Amount ($)</label>
             <input

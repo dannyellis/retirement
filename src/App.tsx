@@ -22,7 +22,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 px-4 sm:px-8 py-4 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Canadian Retirement Planner</h1>
           <p className="text-xs text-gray-500 mt-0.5">CPP · OAS · RRSP/RRIF · TFSA · Tax — 2024 rates</p>
@@ -48,7 +48,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="px-8 py-6 max-w-[1400px] mx-auto">
+      <main className="px-4 sm:px-8 py-6 max-w-[1400px] mx-auto">
         {activeTab === 'inputs' && (
           <div className="space-y-6">
             <div className="flex gap-5">
@@ -73,7 +73,7 @@ export default function App() {
         {activeTab === 'results' && results.length > 0 && (
           <div className="space-y-6">
             <SummaryCards results={results} />
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <IncomeChart results={results} />
               <BalanceChart results={results} />
             </div>

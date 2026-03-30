@@ -28,7 +28,7 @@ export function ProfileForm({ scenario, onChange }: Props) {
     <div className="space-y-4">
       <h3 className="font-semibold text-gray-700">Primary Person</h3>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="label">Name</label>
           <input
