@@ -2,7 +2,7 @@ import { ScenarioInputs, YearlyProjection, ProjectionResult } from '../types';
 import { calcAnnualCPP } from './cpp';
 import { calcAnnualOAS, calcOASClawback } from './oas';
 import { calcIncomeTax } from './tax';
-import { rrifMinimumFactors } from '../data/taxBrackets';
+import { rrifMinimumFactors, tfsaAnnualRoom } from '../data/taxBrackets';
 
 const MAX_AGE = 95;
 
@@ -277,11 +277,14 @@ export function runProjection(inputs: ScenarioInputs): ProjectionResult {
     spouseTfsaBalance = Math.max(0, spouseTfsaBalance - spouseTfsaWithdrawal);
     spouseNonRegBalance = Math.max(0, spouseNonRegBalance - spouseNonRegWithdrawal);
 
-    // Reinvest meltdown surplus into TFSA
+    // Reinvest meltdown surplus into TFSA, capped by annual contribution room
+    let tfsaReinvested = 0;
     if (meltdown?.enabled && meltdown.reinvestInTFSA && surplus > 0) {
-      // The surplus is the after-tax result of the meltdown draws above spending;
-      // deposit it into TFSA (simplified: no contribution room enforcement)
-      tfsaBalance += surplus;
+      const roomThisYear = meltdown.annualTfsaRoom > 0
+        ? meltdown.annualTfsaRoom
+        : (tfsaAnnualRoom[year] ?? 7000);
+      tfsaReinvested = Math.min(surplus, roomThisYear);
+      tfsaBalance += tfsaReinvested;
     }
 
     lifetimeAfterTaxIncome += householdNetIncome;
@@ -304,6 +307,7 @@ export function runProjection(inputs: ScenarioInputs): ProjectionResult {
       rrspWithdrawal,
       meltdownRrspWithdrawal: meltdownExtra,
       tfsaWithdrawal,
+      tfsaReinvested,
       nonRegWithdrawal,
       rrspGrowth,
       tfsaGrowth,

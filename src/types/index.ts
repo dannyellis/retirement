@@ -66,6 +66,11 @@ export interface MeltdownSettings {
   spouseTargetIncome: number;
   /** Reinvest after-tax meltdown surplus into TFSA each year. */
   reinvestInTFSA: boolean;
+  /**
+   * Maximum TFSA contribution per year when reinvesting surplus.
+   * Defaults to the CRA-scheduled annual room for each projection year.
+   */
+  annualTfsaRoom: number;
 }
 
 export interface ScenarioInputs {
@@ -103,6 +108,7 @@ export interface YearlyProjection {
   rrspWithdrawal: number;        // total (mandatory minimum + meltdown extra + gap fill)
   meltdownRrspWithdrawal: number; // portion that is purely the meltdown extra draw
   tfsaWithdrawal: number;
+  tfsaReinvested: number;   // meltdown surplus reinvested into TFSA this year
   nonRegWithdrawal: number;
 
   // Account growth (interest/returns earned during the year, before withdrawals)

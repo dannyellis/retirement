@@ -62,6 +62,7 @@ const defaultScenario = (id: string, label: string): ScenarioInputs => ({
     targetIncome: 80000,
     spouseTargetIncome: 80000,
     reinvestInTFSA: true,
+    annualTfsaRoom: 0,
   },
 });
 

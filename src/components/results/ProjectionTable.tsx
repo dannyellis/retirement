@@ -11,9 +11,10 @@ interface AccountRowProps {
   withdrawal: number;
   closing: number;
   meltdown?: number;
+  reinvested?: number;
 }
 
-function AccountRow({ label, opening, growth, withdrawal, closing, meltdown }: AccountRowProps) {
+function AccountRow({ label, opening, growth, withdrawal, closing, meltdown, reinvested }: AccountRowProps) {
   if (opening === 0 && closing === 0 && growth === 0) return null;
   return (
     <tr className="border-b border-gray-100 text-xs">
@@ -26,6 +27,11 @@ function AccountRow({ label, opening, growth, withdrawal, closing, meltdown }: A
           ? <span className="text-orange-500 ml-1">({money(meltdown)} meltdown)</span>
           : null}
       </td>
+      {reinvested !== undefined && (
+        <td className="text-right pr-4 text-blue-600">
+          {reinvested > 0 ? `+${money(reinvested)}` : '—'}
+        </td>
+      )}
       <td className="text-right font-semibold text-gray-800">{money(closing)}</td>
     </tr>
   );
@@ -33,7 +39,7 @@ function AccountRow({ label, opening, growth, withdrawal, closing, meltdown }: A
 
 function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse: boolean }) {
   const rrspOpening = proj.rrspBalance - proj.rrspGrowth + proj.rrspWithdrawal;
-  const tfsaOpening = proj.tfsaBalance - proj.tfsaGrowth + proj.tfsaWithdrawal;
+  const tfsaOpening = proj.tfsaBalance - proj.tfsaGrowth + proj.tfsaWithdrawal - proj.tfsaReinvested;
   const nonRegOpening = proj.nonRegBalance - proj.nonRegGrowth + proj.nonRegWithdrawal;
   const spouseRrspOpening = proj.spouseRrspBalance - proj.spouseRrspGrowth + proj.spouseRrspWithdrawal;
   const spouseTfsaOpening = proj.spouseTfsaBalance - proj.spouseTfsaGrowth + proj.spouseTfsaWithdrawal;
@@ -48,6 +54,8 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
   const totalClosing = proj.rrspBalance + proj.tfsaBalance + proj.nonRegBalance
     + proj.spouseRrspBalance + proj.spouseTfsaBalance + proj.spouseNonRegBalance;
 
+  const hasReinvested = proj.tfsaReinvested > 0;
+
   return (
     <div className="bg-gray-50 border-t border-blue-100 px-4 py-3">
       <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
@@ -60,6 +68,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
             <th className="text-right pr-4 pb-1 font-medium">Opening</th>
             <th className="text-right pr-4 pb-1 font-medium">Growth</th>
             <th className="text-right pr-4 pb-1 font-medium">Withdrawn</th>
+            {hasReinvested && <th className="text-right pr-4 pb-1 font-medium text-blue-600">Reinvested</th>}
             <th className="text-right pb-1 font-medium">Closing</th>
           </tr>
         </thead>
@@ -71,6 +80,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
             withdrawal={proj.rrspWithdrawal}
             meltdown={proj.meltdownRrspWithdrawal}
             closing={proj.rrspBalance}
+            reinvested={hasReinvested ? 0 : undefined}
           />
           <AccountRow
             label="TFSA"
@@ -78,6 +88,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
             growth={proj.tfsaGrowth}
             withdrawal={proj.tfsaWithdrawal}
             closing={proj.tfsaBalance}
+            reinvested={hasReinvested ? proj.tfsaReinvested : undefined}
           />
           <AccountRow
             label="Non-Registered"
@@ -85,6 +96,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
             growth={proj.nonRegGrowth}
             withdrawal={proj.nonRegWithdrawal}
             closing={proj.nonRegBalance}
+            reinvested={hasReinvested ? 0 : undefined}
           />
           {hasSpouse && (
             <>
@@ -95,6 +107,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
                 withdrawal={proj.spouseRrspWithdrawal}
                 meltdown={proj.spouseMeltdownRrspWithdrawal}
                 closing={proj.spouseRrspBalance}
+                reinvested={hasReinvested ? 0 : undefined}
               />
               <AccountRow
                 label="Spouse TFSA"
@@ -102,6 +115,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
                 growth={proj.spouseTfsaGrowth}
                 withdrawal={proj.spouseTfsaWithdrawal}
                 closing={proj.spouseTfsaBalance}
+                reinvested={hasReinvested ? 0 : undefined}
               />
               <AccountRow
                 label="Spouse Non-Registered"
@@ -109,6 +123,7 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
                 growth={proj.spouseNonRegGrowth}
                 withdrawal={proj.spouseNonRegWithdrawal}
                 closing={proj.spouseNonRegBalance}
+                reinvested={hasReinvested ? 0 : undefined}
               />
             </>
           )}
@@ -119,6 +134,9 @@ function AccountDetail({ proj, hasSpouse }: { proj: YearlyProjection; hasSpouse:
             <td className="text-right pr-4 pt-1.5 text-red-500">
               {totalWithdrawals > 0 ? `-${money(totalWithdrawals)}` : '—'}
             </td>
+            {hasReinvested && (
+              <td className="text-right pr-4 pt-1.5 text-blue-600">+{money(proj.tfsaReinvested)}</td>
+            )}
             <td className="text-right pt-1.5">{money(totalClosing)}</td>
           </tr>
         </tbody>

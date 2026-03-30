@@ -107,7 +107,7 @@ export function AccountsForm({ scenario, onChange }: Props) {
             type="checkbox"
             checked={!!meltdown?.enabled}
             onChange={(e) =>
-              onChange({ meltdown: { ...(meltdown ?? { targetIncome: 80000, spouseTargetIncome: 80000, reinvestInTFSA: true }), enabled: e.target.checked } })
+              onChange({ meltdown: { ...(meltdown ?? { targetIncome: 80000, spouseTargetIncome: 80000, reinvestInTFSA: true, annualTfsaRoom: 0 }), enabled: e.target.checked } })
             }
             className="w-4 h-4 rounded border-gray-300 text-blue-600"
           />
@@ -198,6 +198,27 @@ export function AccountsForm({ scenario, onChange }: Props) {
                 Reinvest after-tax meltdown surplus into TFSA each year
               </span>
             </label>
+
+            {/* Annual TFSA contribution room cap */}
+            {meltdown.reinvestInTFSA && (
+              <div className="space-y-1">
+                <label className="label">Annual TFSA Contribution Room ($/yr)</label>
+                <input
+                  className="input max-w-xs"
+                  type="number"
+                  value={meltdown.annualTfsaRoom || ''}
+                  placeholder="CRA scheduled (e.g. 7000)"
+                  step={500}
+                  min={0}
+                  onChange={(e) =>
+                    onChange({ meltdown: { ...meltdown, annualTfsaRoom: Number(e.target.value) } })
+                  }
+                />
+                <p className="text-xs text-gray-400">
+                  Maximum surplus deposited into TFSA each year. Leave blank to use the CRA-scheduled annual room for each year.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
