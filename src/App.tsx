@@ -32,16 +32,16 @@ export default function App() {
         <div className="flex gap-3 items-center">
           <div className="flex rounded-lg border border-gray-200 overflow-hidden text-sm">
             <button
-              onClick={() => setActiveTab('inputs')}
-              className={`px-4 py-2 ${activeTab === 'inputs' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
-            >
-              Inputs
-            </button>
-            <button
               onClick={() => setActiveTab('accumulation')}
               className={`px-4 py-2 ${activeTab === 'accumulation' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
             >
               Accumulation
+            </button>
+            <button
+              onClick={() => setActiveTab('inputs')}
+              className={`px-4 py-2 ${activeTab === 'inputs' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+            >
+              Inputs
             </button>
             <button
               onClick={() => setActiveTab('results')}

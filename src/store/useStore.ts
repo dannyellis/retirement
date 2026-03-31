@@ -89,7 +89,7 @@ export const useStore = create<AppState>()(
       scenarios: [defaultScenario('a', 'Scenario A'), defaultScenario('b', 'Scenario B')],
       results: [],
       optimizations: {},
-      activeTab: 'inputs',
+      activeTab: 'accumulation',
 
       updateScenario: (id, updates) => {
         set((state) => ({
